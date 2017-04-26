@@ -1,247 +1,32 @@
-//META{"name":"ThemeCustomizer"}*//
+//META{"name": "snowPlugin"}*//
 
-var ThemeCustomizer = function () {};
+var snowPlugin = function() {}
 
-ThemeCustomizer.vars = [];
-
-ThemeCustomizer.prototype.getName = function () {
-    return "Theme Customizer";
+snowPlugin.prototype.load = function() {
+    $("head").append('<script>Date.now||(Date.now=function(){return(new Date).getTime()}),function(){"use strict";for(var t=["webkit","moz"],e=0;ewindow.cancelAnimationFrame=window[i+"CancelAnimationFrame"]||window[i+"CancelRequestAnimationFrame"]}if(/iP(ad|hone|od).*OS 6/.test(window.navigator.userAgent)||!window.requestAnimationFrame||!window.cancelAnimationFrame){var s=0;window.requestAnimationFrame=function(t){var e=Date.now(),i=Math.max(s+16,e);return setTimeout(function(){t(s=i)},i-e)},window.cancelAnimationFrame=clearTimeout}}(),function(t){t.snowfall=function(e,i){function s(s,n,a,o){this.x=s,this.y=n,this.size=a,this.speed=o,this.step=0,this.stepSize=h(1,10)/100,i.collection&&(this.target=m[h(0,m.length-1)]);var r=null;i.image?(r=document.createElement("img"),r.src=i.image):(r=document.createElement("div"),t(r).css({background:i.flakeColor})),t(r).attr({"class":"snowfall-flakes"}).css({width:this.size,height:this.size,position:i.flakePosition,top:this.y,left:this.x,fontSize:0,zIndex:i.flakeIndex}),t(e).get(0).tagName===t(document).get(0).tagName?(t("body").append(t(r)),e=t("body")):t(e).append(t(r)),this.element=r,this.update=function(){if(this.y+=this.speed,this.y>l-(this.size+6)&&this.reset(),this.element.style.top=this.y+"px",this.element.style.left=this.x+"px",this.step+=this.stepSize,this.x+=y===!1?Math.cos(this.step):y+Math.cos(this.step),i.collection&&this.x>this.target.x&&this.xthis.target.y&&this.ythis.target.height)if(s+this.speed+this.size>this.target.height){for(;s+this.speed+this.size>this.target.height&&this.speed>0;)this.speed*=.5;t.fillStyle="#fff",void 0==n[parseInt(e)][parseInt(s+this.speed+this.size)]?(n[parseInt(e)][parseInt(s+this.speed+this.size)]=1,t.fillRect(e,s+this.speed+this.size,this.size,this.size)):(n[parseInt(e)][parseInt(s+this.speed)]=1,t.fillRect(e,s+this.speed,this.size,this.size)),this.reset()}else this.speed=1,this.stepSize=0,parseInt(e)+10&&void 0==n[parseInt(e)-1][parseInt(s)+1]?this.x--:(t.fillStyle="#fff",t.fillRect(e,s,this.size,this.size),n[parseInt(e)][parseInt(s)]=1,this.reset())}(this.x+this.size>d-c||this.x",{"class":"snowfall-canvas"}),z=[];if(u.top-g>0){t("body").append(x),x.css({position:i.flakePosition,left:u.left+"px",top:u.top-g+"px"}).prop({width:u.width,height:g});for(var v=0;vy=!1;i.deviceorientation&&t(window).bind("deviceorientation",function(t){y=.1*t.originalEvent.gamma}),n(),this.clear=function(){t(".snowfall-canvas").remove(),t(e).children(".snowfall-flakes").remove(),cancelAnimationFrame(f)}},t.fn.snowfall=function(e){return"object"==typeof e||void 0==e?this.each(function(){new t.snowfall(this,e)}):"string"==typeof e?this.each(function(){var e=t(this).data("snowfall");e&&e.clear()}):void 0}}(jQuery);');
 };
 
-ThemeCustomizer.prototype.getDescription = function () {
-    return "Customize CSS Variables of themes<br><br>Thanks to <a href='https://github.com/noodlebox' target='_blank'>@noodlebox</a>, <a href='https://github.com/Jiiks' target='_blank'>@Jiiks</a> and <a href='https://github.com/megamit' target='_blank'>@Mitchell</a> for helping<span style='position: absolute; bottom: 0; right: 14px;'>By <b><a href='https://github.com/Zerthox' target='_blank'>@Zerthox</a></b></span>";
+
+snowPlugin.prototype.start = function() {
+    $(".scroller.messages:not(.snow)").snowfall({flakeCount : 50, maxSpeed : 10});
+    $(".scroller.messages").addClass("snow");
 };
 
-ThemeCustomizer.prototype.getVersion = function () {
-    return "0.1.8";
+snowPlugin.prototype.stop = function() {};
+
+
+snowPlugin.prototype.getName = () => { return "Snoow"; };
+snowPlugin.prototype.getDescription = () => { return "Snoow"; };
+snowPlugin.prototype.getVersion = () => { return "1.0.0"; };
+snowPlugin.prototype.getAuthor = () => { return "Jiiks"; };
+
+snowPlugin.prototype.unload = () => {};
+snowPlugin.prototype.onMessage = function() {
+
 };
-
-ThemeCustomizer.prototype.getAuthor = function () {
-    return "<a href='https://github.com/Zerthox' target='_blank'>Zerthox</a>";
+snowPlugin.prototype.onSwitch = function() {
+    $(".scroller.messages:not(.snow)").snowfall({flakeCount : 50, maxSpeed : 10});
+    $(".scroller.messages").addClass("snow");
 };
-
-ThemeCustomizer.prototype.getSettingsPanel = function () {
-  var settingspanel = "<div id='tc-settingspanel'><h1>Theme Customizer Settings</h1>";
-  if (ThemeCustomizer.vars.length > 0) {
-    settingspanel += "<div class='tc-controls'>";
-    for (var i = 0; i < ThemeCustomizer.vars.length; i++) {
-      settingspanel += "<label for='" + ThemeCustomizer.vars[i][1] + "'>" + ThemeCustomizer.vars[i][1] + ": </label>";
-      if (ThemeCustomizer.vars[i][2].startsWith("#") || ThemeCustomizer.vars[i][2].startsWith("rgb") || ThemeCustomizer.vars[i][2].startsWith("hsl")) {
-        settingspanel +="<input type='text' id='" + ThemeCustomizer.vars[i][1] + "'><script id='" + ThemeCustomizer.vars[i][1] + "'>$('#" + ThemeCustomizer.vars[i][1] + "').spectrum({color: '#" + ThemeCustomizer.vars[i][2] + "', showInput: true, showInitial: true, showAlpha: true});</script><br>";
-      }
-      else {
-        settingspanel +="<input type='text' id='" + ThemeCustomizer.vars[i][1] + "' value='" + ThemeCustomizer.vars[i][2] + "'><br>";
-      }
-    }
-    settingspanel += "<br><div class='tc-buttons'>";
-    settingspanel += "<button id='apply' onclick='setVars()'>Apply</button>";
-    settingspanel += "<button id='retry' onclick='findVars()'>Reload Variables</button>";
-    settingspanel += "<button id='default-settings' onclick='settingsDefault()'>Default Settings</button>";
-    settingspanel += "<button id='save' onclick='saveSettings()'>Save</button>";
-    settingspanel += "<button id='clear-save' onclick='saveClear()'>Clear Save</button>";
-    settingspanel += "</div>";
-    settingspanel += "</div>";
-  }
-  else {
-    settingspanel += "<i>No Variables found!<br><span style='font-size: smaller;'>Make sure the Plugin and a Theme with CSS Variables are both enabled!</span></i>"
-    settingspanel += "<br><br>";
-    settingspanel += "<button id='retry' onclick='findVars()'>Retry</button>";
-
-  }
-  settingspanel += "</div>";
-
-  return settingspanel;
-};
-
-ThemeCustomizer.prototype.start = function () {
-
-  // Select observer target
-  target = document.querySelector('head');
-   
-  // Create observer
-  ThemeCustomizer.observer = new MutationObserver(function(mutations) {
-    mutations.forEach(function(mutation) {
-      findVars();
-      refVars();
-    });    
-  });
-   
-  // Observer configuration
-  config = {
-    attributes: true,
-    childList: true,
-    characterData: true
-  };
-
-  // Start observer
-  ThemeCustomizer.observer.observe(target, config);
-
-  // Inject Spectrum
-  if (!$().spectrum) {
-    $("body").append('<script id="spectrumjs" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/spectrum/1.8.0/spectrum.min.js">');
-    $("body").append('<link id ="spectrumcss" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/spectrum/1.8.0/spectrum.min.css">');
-  }
-
-  // Console output
-  console.log("%c[Theme Customizer]" + "%c Initialized", "color: #0ff;", "");
-
-  // Load local settings
-  ThemeCustomizer.vars = JSON.parse(bdPluginStorage.get("ThemeCustomizer", "vars"));
-  if (ThemeCustomizer.vars === null) {
-
-    // Empty variables
-    ThemeCustomizer.vars = [];
-
-    // Console output
-    console.log("%c[Theme Customizer]" + "%c Failed to load settings", "color: #0ff;", "");
-
-    // Try to find variables
-    findVars();
-  }
-  else {
-
-    // Apply settings
-    applyVars();
-
-    // Console output
-    console.log("%c[Theme Customizer]" + "%c Settings loaded", "color: #0ff;", "");
-  }
-};
-
-// REFRESH INPUT VALUES
-function refVars() {
-  for (var i = 0; i < ThemeCustomizer.vars.length; i++)
-    if (ThemeCustomizer.vars[i][2] != null)
-      try {
-      $("#" + ThemeCustomizer.vars[i][1]).spectrum({color: "#" + ThemeCustomizer.vars[i][2], showInput: true, showInitial: true, showAlpha: true});
-    }
-    catch(err){}
-};
-
-// FIND VARIABLES
-function findVars() {
-
-  // Clear variable list
-  ThemeCustomizer.vars = [];
-
-  // Console output
-  console.log("%c[Theme Customizer]" + "%c Scanning for CSS variables", "color: #0ff;", "");
-
-  // Find CSS variables
-  for (var sheet of document.styleSheets) {
-    if (sheet === null || sheet.cssRules === null) {
-      continue;
-    }
-    for (var rule of sheet.cssRules) {
-      if (rule === null || rule.style === null || rule.type !== CSSRule.STYLE_RULE) {
-        continue;
-      }
-      for (var style of rule.style) {
-        if (style === null || !style.startsWith("--")) {
-          continue;
-        }
-        let value = window.getComputedStyle(document.querySelector(rule.selectorText)).getPropertyValue(style);
-        ThemeCustomizer.vars.push([rule.selectorText, style.replace("--", ""), value]);
-      }
-    }
-  }
-
-  // Remove hex color clutter
-  for (var i = 0; i < ThemeCustomizer.vars.length; i++) {
-    ThemeCustomizer.vars[i][2] = ThemeCustomizer.vars[i][2].replace(/( )/g, "");
-    if (ThemeCustomizer.vars[i][2].startsWith("#"))
-      ThemeCustomizer.vars[i][2] = ThemeCustomizer.vars[i][2].replace(/(\\3)/g, "");
-  }
-};
-
-// APPLY VARIABLES
-function applyVars() {
-  for (var i = 0; i < ThemeCustomizer.vars.length; i++) {
-
-    // Set as property values
-    document.querySelector(ThemeCustomizer.vars[i][0]).style.setProperty("--" + ThemeCustomizer.vars[i][1], ThemeCustomizer.vars[i][2]);
-
-    // Console output
-    console.log("%c[Theme Customizer]" + "%c Set " + ThemeCustomizer.vars[i][1] + " to " + ThemeCustomizer.vars[i][2], "color: #0ff;", "");
-    }
-};
-
-// SET VARIABLES
-function setVars() {
-  for (var i = 0; i < ThemeCustomizer.vars.length; i++) {
-
-    // Find variable values
-    if (document.querySelector("#" + ThemeCustomizer.vars[i][1]).value.startsWith("hsv")) {
-      ThemeCustomizer.vars[i][2] = document.querySelector("#" + ThemeCustomizer.vars[i][1] + " + .sp-replacer .sp-preview-inner").style.backgroundColor;
-    }
-    else {
-      ThemeCustomizer.vars[i][2] = document.querySelector("#" + ThemeCustomizer.vars[i][1]).value;
-    }
-
-  applyVars();
-  }
-};
-
-// RESTORE DEFAULT SETTINGS
-function settingsDefault() {
-
-  // Clear property values
-  for (var i = 0; i < ThemeCustomizer.vars.length; i++) {
-    $(ThemeCustomizer.vars[i][0]).removeAttr('style');
-  }
-
-  // Empty variables
-  ThemeCustomizer.vars = [];
-
-  // Reload settings
-  findVars();
-  refVars();
-
-  // Console output
-  console.log("%c[Theme Customizer]" + "%c Settings restored to default", "color: #0ff;", "");
-};
-
-// SAVE SETTINGS
-function saveSettings() {
-
-  // Save settings
-  bdPluginStorage.set("ThemeCustomizer", "vars", JSON.stringify(ThemeCustomizer.vars));
-
-  // Console output
-  console.log("%c[Theme Customizer]" + "%c Settings saved", "color: #0ff;", "");
-};
-
-// CLEAR SAVED SETTINGS
-function saveClear() {
-  bdPluginStorage.set("ThemeCustomizer", "vars", "");
-
-  // Console output
-  console.log("%c[Theme Customizer]" + "%c Cleared saved settings", "color: #0ff;", "");
-};
-
-ThemeCustomizer.prototype.stop = function () {
-
-  // Empty variables
-  ThemeCustomizer.vars = [];
-
-  // Clear property values
-  for (var i = 0; i < ThemeCustomizer.vars.length; i++) {
-    $(ThemeCustomizer.vars[i][0]).removeAttr('style');
-
-  // Stop observer
-  ThemeCustomizer.observer.disconnect();
-
-  // Console output
-  console.log("%c[Theme Customizer]" + "%c Stopped", "color: #0ff;", "");
-  }
-};
-
-ThemeCustomizer.prototype.load = function () {};
-
-ThemeCustomizer.prototype.unload = function () {};
-
-ThemeCustomizer.prototype.observer = function (e) {};
-
-ThemeCustomizer.prototype.onMessage = function () {};
-
-ThemeCustomizer.prototype.onSwitch = function () {};
+snowPlugin.prototype.observer = (e) => {};
+snowPlugin.prototype.getSettingsPanel = () => { return ""; };
